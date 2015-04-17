@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Scantoken {
 
-	private static String myToken="::";
+	private static String myToken="|";
 	private static String newLine="\n";
 	private static Boolean debug=true;
 	
@@ -47,7 +47,7 @@ public class Scantoken {
 				System.out.println("string "+valueToke[0]);
 			}
 			
-			EventList.add(new EventProject(valueToke[0],valueToke[1],valueToke[2],valueToke[3],valueToke[4],valueToke[5],valueToke[6]));
+		//	EventList.add(new EventProject(valueToke[0],valueToke[1],valueToke[2],valueToke[3],valueToke[4],valueToke[5],valueToke[6]));
 		}
 		
 		return EventList;
