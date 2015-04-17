@@ -1,4 +1,4 @@
-package Mytoken;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,9 +9,10 @@ public class Scantoken {
 
 	private static String myToken="::";
 	private static String newLine="\n";
+	private static Boolean debug=true;
 	
 	public static Vector getValueToken(File file){
-		Vector outputData=new Vector();
+		Vector<EventProject> EventList=new Vector<EventProject>();
 		
 		Scanner inFile1 = null;
 		try {
@@ -41,20 +42,25 @@ public class Scantoken {
 		
 			// get value with token
 			String[] valueToke=eachLIne[i].split(myToken);
-			outputData.add(valueToke);
+			if (debug){
+				System.out.println("string size "+valueToke.length);
+				System.out.println("string "+valueToke[0]);
+			}
+			
+			EventList.add(new EventProject(valueToke[0],valueToke[1],valueToke[2],valueToke[3],valueToke[4],valueToke[5],valueToke[6]));
 		}
 		
-		return outputData;
+		return EventList;
 		
 	
 	}
 	public static void main(String[] args) throws FileNotFoundException{
-		File file = new File("D:\\Working\\Odesk_testing\\ServiceLearning.txt");
-		Vector outputData=getValueToken(file);
+		File file = new File("ServiceLearning.txt");
+		Vector EventList=getValueToken(file);
 		
-		for (int i = 0; i < outputData.size(); i++) {
+		for (int i = 0; i < EventList.size(); i++) {
 			
-		  String[] eachLineData=(String[]) outputData.get(i);
+		  String[] eachLineData=(String[]) EventList.get(i);
 		  System.out.println("Value of row "+i + newLine);
 		  
 		  for (int j = 0; j < eachLineData.length; j++) {
