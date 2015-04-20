@@ -1,150 +1,95 @@
+package ScanToken;
 
 public class EventProject {
-	private String url;
-	private String address;
-	private String partner;
+	private String projectName;
 	private String date;
-	private String time;
-	private String impact;
-	private String workDescription;
-	private float distance;
-	
-		
-public EventProject(String url, String address,String partner,String date, String time,String impact, String workDescription){
-this.address=address;
-this.url = url;
-this.partner = partner;
-this.date=date;
-this.time=time;
-this.impact=impact;
-this.workDescription=workDescription;
-distance=0;
-}
- public void calculateDistance(){
-	 
- }
+	private String slot;
+	private String link;
+	private String agency;
+	private String agencyLink;
+	private String descriptionDate;
+	private String distance;
 
-/**
- * @return the url
- */
-public String getUrl() {
-	return url;
-}
+	public EventProject(String projectName, String date, String slot,
+			String link, String agency, String agencyLink,
+			String descriptionDate, String distance) {
+		this.projectName = projectName;
+		this.date = date;
+		this.slot = slot;
+		this.link = link;
+		this.agency = agency;
+		this.agencyLink = agencyLink;
+		this.descriptionDate = descriptionDate;
+		this.distance= distance;
+	}
 
+	public void calculateDistance() {
 
-/**
- * @param url the url to set
- */
-public void setUrl(String url) {
-	this.url = url;
-}
+	}
 
+	public String getProjectName() {
+		return projectName;
+	}
 
-/**
- * @return the address
- */
-public String getAddress() {
-	return address;
-}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
+	public String getDate() {
+		return date;
+	}
 
-/**
- * @param address the address to set
- */
-public void setAddress(String address) {
-	this.address = address;
-}
+	public void setDate(String date) {
+		this.date = date;
+	}
 
+	public String getSlot() {
+		return slot;
+	}
 
-/**
- * @return the partner
- */
-public String getPartner() {
-	return partner;
-}
+	public void setSlot(String slot) {
+		this.slot = slot;
+	}
 
+	public String getLink() {
+		return link;
+	}
 
-/**
- * @param partner the partner to set
- */
-public void setPartner(String partner) {
-	this.partner = partner;
-}
+	public void setLink(String link) {
+		this.link = link;
+	}
 
+	public String getAgency() {
+		return agency;
+	}
 
-/**
- * @return the date
- */
-public String getDate() {
-	return date;
-}
+	public void setAgency(String agency) {
+		this.agency = agency;
+	}
 
+	public String getAgencyLink() {
+		return agencyLink;
+	}
 
-/**
- * @param date the date to set
- */
-public void setDate(String date) {
-	this.date = date;
-}
+	public void setAgencyLink(String agencyLink) {
+		this.agencyLink = agencyLink;
+	}
 
+	public String getDescriptionDate() {
+		return descriptionDate;
+	}
 
-/**
- * @return the time
- */
-public String getTime() {
-	return time;
-}
+	public void setDescriptionDate(String descriptionDate) {
+		this.descriptionDate = descriptionDate;
+	}
 
+	public String getDistance() {
+		return distance;
+	}
 
-/**
- * @param time the time to set
- */
-public void setTime(String time) {
-	this.time = time;
-}
-
-
-/**
- * @return the impact
- */
-public String getImpact() {
-	return impact;
-}
-
-
-/**
- * @param impact the impact to set
- */
-public void setImpact(String impact) {
-	this.impact = impact;
-}
-
-
-/**
- * @return the workDescription
- */
-public String getWorkDescription() {
-	return workDescription;
-}
-
-
-/**
- * @param workDescription the workDescription to set
- */
-public void setWorkDescription(String workDescription) {
-	this.workDescription = workDescription;
-}
-
-
-
-
-
-
-
-
-
-
-
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
 
 
 
