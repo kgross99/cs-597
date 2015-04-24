@@ -1,4 +1,4 @@
-package ScanToken;
+//package ScanToken;
 
 public class EventProject {
 	private String projectName;
