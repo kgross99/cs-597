@@ -1,9 +1,9 @@
 //package ScanToken;
-
 public class EventProject {
 	private String projectName;
 	private String date;
 	private String slot;
+	private int slotsize;
 	private String link;
 	private String agency;
 	private String agencyLink;
@@ -21,6 +21,12 @@ public class EventProject {
 		this.agencyLink = agencyLink;
 		this.descriptionDate = descriptionDate;
 		this.distance= distance;
+		this.slotsize=Integer.parseInt(slot);
+		
+	}
+
+	public int getSlotsize() {
+		return slotsize;
 	}
 
 	public void calculateDistance() {

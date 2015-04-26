@@ -17,7 +17,7 @@ public class OrgSyncSearch {
 		}
 	}
 	
-	ArrayList<EventProject> search(){
+	ArrayList<EventProject> search(String[] fields){
 	
 	
 	
