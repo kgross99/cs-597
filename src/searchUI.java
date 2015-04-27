@@ -1,4 +1,4 @@
-//package ScanToken;
+package ScanToken;
 
 import java.io.File;
 import java.util.Vector;
@@ -26,9 +26,9 @@ public class searchUI {
 	private Text projectName;
 	private Text date;
 	private Text slot;
-	private Text link;
+	//private Text link;
 	private Text agency;
-	private Text agencyLink;
+	//private Text agencyLink;
 	private Text descriptDate;
 	private Text location;
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
@@ -99,13 +99,6 @@ public class searchUI {
 		slot = new Text(composite_1, SWT.BORDER);
 		slot.setBounds(189, 74, 200, 26);
 		
-		Label lblLink = new Label(composite_1, SWT.NONE);
-		lblLink.setTouchEnabled(true);
-		lblLink.setText("Link");
-		lblLink.setBounds(69, 109, 114, 26);
-		
-		link = new Text(composite_1, SWT.BORDER);
-		link.setBounds(189, 106, 200, 26);
 		
 		Label lblAgency = new Label(composite_1, SWT.NONE);
 		lblAgency.setTouchEnabled(true);
@@ -115,13 +108,7 @@ public class searchUI {
 		agency = new Text(composite_1, SWT.BORDER);
 		agency.setBounds(189, 138, 200, 26);
 		
-		Label lblAgencyLink = new Label(composite_1, SWT.NONE);
-		lblAgencyLink.setTouchEnabled(true);
-		lblAgencyLink.setText("Agency Link");
-		lblAgencyLink.setBounds(69, 173, 114, 26);
 		
-		agencyLink = new Text(composite_1, SWT.BORDER);
-		agencyLink.setBounds(189, 170, 200, 26);
 		
 		Label lblDescriptionDate = new Label(composite_1, SWT.NONE);
 		lblDescriptionDate.setTouchEnabled(true);
@@ -149,7 +136,7 @@ public class searchUI {
 				formToolkit.paintBordersFor(table);
 				table.setHeaderVisible(true);
 				table.setLinesVisible(true);
-				 String[] titles = { "Projectname", "Date", "Slot", "Link", "Agency", "Agency Link","Description date",
+				 String[] titles = { "Projectname", "Date", "Slot", "Agency" ,"Description date",
 						 "Distance"};
 					    for (int i = 0; i < titles.length; i++) {
 					    	TableColumn column = new TableColumn(table, SWT.NONE);
@@ -174,18 +161,12 @@ public class searchUI {
 								outputTable.add(eventproject);
 								count++;
 							}
-							if(link.getText().equals(eventproject.getLink())==true){
-								outputTable.add(eventproject);
-								count++;
-							}
+							
 							if(agency.getText().equals(eventproject.getAgency())==true){
 								outputTable.add(eventproject);
 								count++;
 							}
-							if(agencyLink.getText().equals(eventproject.getAgencyLink())==true){
-								outputTable.add(eventproject);
-								count++;
-							}
+							
 							if(descriptDate.getText().equals(eventproject.getDescriptionDate())==true){
 								outputTable.add(eventproject);
 								count++;
@@ -203,9 +184,9 @@ public class searchUI {
 					      item.setText(0, outputEvent.getProjectName());
 					      item.setText(1, outputEvent.getDate());
 					      item.setText(2, outputEvent.getSlot());
-					      item.setText(3, outputEvent.getLink());
+					     
 					      item.setText(4, outputEvent.getAgency());
-					      item.setText(5, outputEvent.getAgencyLink());
+					     
 					      item.setText(6, outputEvent.getDescriptionDate());
 					      item.setText(6, outputEvent.getDistance());
 					    }

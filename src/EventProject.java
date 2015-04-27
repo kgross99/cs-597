@@ -1,4 +1,24 @@
 //package ScanToken;
+
+
+
+
+
+
+
+
+/* This class is for the actual events on the orgsync page.  Each event is put into an event object to be manipulated
+ * The data in the object is the data scraped from the orgsync web site
+ */
+
+
+
+
+
+
+
+
+
 public class EventProject {
 	private String projectName;
 	private String date;
@@ -18,7 +38,10 @@ public class EventProject {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-
+/* EventProject constructor
+ * Creates an event object using the data from the orgsync web page
+ * 
+ */
 	public EventProject(String projectName, String date, String slot,
 			String link, String agency, String agencyLink,
 			String descriptionDate, String distance) {
@@ -30,7 +53,7 @@ public class EventProject {
 		this.agencyLink = agencyLink;
 		this.descriptionDate = descriptionDate;
 		this.distance= distance;
-		this.slotsize=Integer.parseInt(slot);
+		this.slotsize=Integer.parseInt(slot);// creates an actual int from the string of the slotsize that was passed to the constructor
 		
 	}
 
@@ -39,6 +62,8 @@ public class EventProject {
 	}
 
 	public void calculateDistance() {
+		
+		//TODO:  Needs everything. 
 
 	}
 
