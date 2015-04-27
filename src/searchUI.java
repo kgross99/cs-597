@@ -1,4 +1,4 @@
-package ScanToken;
+//package ScanToken;
 
 import java.io.File;
 import java.util.Vector;
@@ -153,6 +153,14 @@ public class searchUI {
 								outputTable.add(eventproject);
 								count++;
 							}
+							String[] query=new String[6];
+							query[0]=projectName.getText();
+							query[1]=date.getText();
+							query[2]=slot.getText();
+							query[3]=agency.getText();
+							query[4]=descriptDate.getText();
+							query[5]=location.getText();
+							
 							if(date.getText().equals(eventproject.getDate())==true){
 								outputTable.add(eventproject);
 								count++;
