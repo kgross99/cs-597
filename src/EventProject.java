@@ -9,6 +9,15 @@ public class EventProject {
 	private String agencyLink;
 	private String descriptionDate;
 	private String distance;
+	private int index;
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
 
 	public EventProject(String projectName, String date, String slot,
 			String link, String agency, String agencyLink,
