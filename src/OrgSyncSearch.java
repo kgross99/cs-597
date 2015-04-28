@@ -35,28 +35,41 @@ public class OrgSyncSearch {
 	private int DocId;
 	private Document tempDoc;
 
-	public OrgSyncSearch(ArrayList<EventProject> eventList) throws IOException {
+	public OrgSyncSearch(ArrayList<EventProject> events) throws IOException {
+		tempList=new ArrayList<EventProject>();
 		analyzer = new StandardAnalyzer();
 		index = new RAMDirectory();
-
+		validList=new ArrayList<EventProject>();
 		config = new IndexWriterConfig(analyzer);
 
 		w = new IndexWriter(index, config);
-		this.eventList = eventList;
-		for (int i = 0; i < eventList.size(); i++) {
-			if (eventList.get(i).getSlotsize() > 0) {
-				tempList.add(eventList.get(i));
-				tempList.get(i).setIndex(i);
-				addDoc(w, tempList.get(i));
-			}
-		}
-
+		eventList = events;
+		
+	
 	}
 
 	ArrayList<EventProject> search(String[] fields) throws ParseException,
 			IOException {
+	System.out.println("processing list");
+	int slotCount=0;
+	if (fields[2]!=""){
+	String Slot=fields[2];
+	 slotCount=Integer.parseInt(Slot);
+	}
+		
+		for (int i = 0; i < eventList.size(); i++) {
+			System.out.println("processing event "+eventList.get(i));
+			if (eventList.get(i).getSlotsize() > 0) {
+				eventList.get(i).setIndex(tempList.size());
+				tempList.add(eventList.get(i));
+			
+				
+				addDoc(w, tempList.get(i));
+			}
+		}
+		w.close();
 
-		if (fields[0] != null) { // checks for project name
+		if (fields[0] != "") { // checks for project name
 			for (int i = 0; i < tempList.size(); i++) {
 				if (tempList.get(i).getProjectName().equals(fields[0])) {
 					validList.add(tempList.get(i));
@@ -64,34 +77,44 @@ public class OrgSyncSearch {
 				}
 			}
 		}
+		else {validList=tempList;}
 		tempList = validList;
 		validList = new ArrayList<EventProject>();
 
-		if (fields[2] != null) { // checks for number of slots
+		if (fields[2] !="") { // checks for number of slots
+			int tempi, tempx;
 			for (int i = 0; i < tempList.size(); i++) {
-				if (Integer.getInteger(tempList.get(i).getSlot()) >= Integer
-						.getInteger(fields[2])) {
+				tempi=tempList.get(i).getSlotsize();
+				
+				
+				if (tempi>=slotCount) {
 					validList.add(tempList.get(i));
 
 				}
 			}
-		}
+		}else {validList=tempList;}
 		tempList = validList;
 		validList = new ArrayList<EventProject>();
 
-		if (fields[5] != null) {// checks for agency name
+		if (fields[3] != "") {// checks for agency name
 			for (int i = 0; i < tempList.size(); i++) {
 				if (tempList.get(i).getAgency().equals(fields[5])) {
 					validList.add(tempList.get(i));
 
 				}
 			}
-		}
+		}else {validList=tempList;}
 
 		tempList = validList;
+		if (fields[4]==""){
+			System.out.println("found "+validList.size()+" items");
+			return validList;
+		}
+		
+		System.out.println("Running the lucene search");
 		validList = new ArrayList<EventProject>();
 
-		Query q = new QueryParser("title", analyzer).parse(fields[6]);
+		Query q = new QueryParser("title", analyzer).parse(fields[4]);
 		reader = DirectoryReader.open(index);
 		searcher = new IndexSearcher(reader);
 		collector = TopScoreDocCollector.create(LinksPerPage);
@@ -110,7 +133,8 @@ public class OrgSyncSearch {
 			}
 
 		}
-
+		System.out.println("found "+validList.size()+" items");
+	
 		return validList;
 	}
 	

@@ -1,10 +1,13 @@
 //package ScanToken;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.print.attribute.standard.MediaSize.Other;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,6 +36,8 @@ public class searchUI {
 	private Text location;
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 	private Table table;
+	private OrgSyncSearch search;
+	private ArrayList<EventProject> results;
 
 	/**
 	 * Launch the application.
@@ -142,18 +147,24 @@ public class searchUI {
 					    	TableColumn column = new TableColumn(table, SWT.NONE);
 						      column.setText(titles[i]);
 					    }
-					    File file = new File("D:\\Test.xlsx");
+					    File file = new File("c:/Test.xlsx");
 						Vector<EventProject> EventList=Scantoken.getValueToken(file);
 						int count = 0;
 						System.out.println("Size is"+EventList.size());
 						Vector outputTable = new Vector();
+						ArrayList<EventProject> fullList= new ArrayList<EventProject>();
 					    for (int i = 0; i < EventList.size(); i++) {
 					    	EventProject eventproject=EventList.get(i);
-							if(projectName.getText().equals(eventproject.getProjectName())==true){
-								outputTable.add(eventproject);
-								count++;
+					    	fullList.add(eventproject);
+					    }
+					    	try {
+								 search=new OrgSyncSearch(fullList);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
-							String[] query=new String[6];
+					    	
+					    	String[] query=new String[6];
 							query[0]=projectName.getText();
 							query[1]=date.getText();
 							query[2]=slot.getText();
@@ -161,32 +172,24 @@ public class searchUI {
 							query[4]=descriptDate.getText();
 							query[5]=location.getText();
 							
-							if(date.getText().equals(eventproject.getDate())==true){
-								outputTable.add(eventproject);
-								count++;
-							}
-							if(slot.getText().equals(eventproject.getSlot())==true){
-								outputTable.add(eventproject);
-								count++;
-							}
-							
-							if(agency.getText().equals(eventproject.getAgency())==true){
-								outputTable.add(eventproject);
-								count++;
+							try {
+								results=search.search(query);
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
 							
-							if(descriptDate.getText().equals(eventproject.getDescriptionDate())==true){
-								outputTable.add(eventproject);
-								count++;
-							}
-							if(location.getText().equals(eventproject.getDistance())==true){
-								outputTable.add(eventproject);
-								count++;
-							}
-							
-						} 
+							if (results.size()>1){
+						 for (int i=0;i<results.size();i++){
+							 outputTable.add(results.get(i));
+							 
+						 }
+		}
 						System.out.println("Output"+outputTable.size());
-					    for (int j = 0; j < count; j++) {
+					    for (int j = 0; j < outputTable.size(); j++) {
 					      TableItem item = new TableItem(table, SWT.NONE);
 					      EventProject outputEvent=(EventProject) outputTable.get(j);
 					      item.setText(0, outputEvent.getProjectName());

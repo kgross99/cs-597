@@ -130,7 +130,9 @@ public class EventProject {
 	public void setDistance(String distance) {
 		this.distance = distance;
 	}
-
+public String toString(){
+	return projectName;
+}
 
 
 }
