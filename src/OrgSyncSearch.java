@@ -113,13 +113,14 @@ public class OrgSyncSearch {
 		
 		System.out.println("Running the lucene search");
 		validList = new ArrayList<EventProject>();
-
-		Query q = new QueryParser("title", analyzer).parse(fields[4]);
+		System.out.println("generating query from    "+fields[4]);
+		Query q = new QueryParser("description", analyzer).parse(fields[4]);
 		reader = DirectoryReader.open(index);
 		searcher = new IndexSearcher(reader);
 		collector = TopScoreDocCollector.create(LinksPerPage);
 		searcher.search(q, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
+		System.out.println("Number of items found in lucene "+hits.length);
 		int tempIndex;
 		for (int i = 0; i < hits.length; i++) {
 			DocId = hits[i].doc;
@@ -140,7 +141,8 @@ public class OrgSyncSearch {
 	
 	private static void addDoc(IndexWriter w, EventProject project) throws IOException {
 		  Document doc = new Document();
-		  doc.add(new TextField("discription", project.getDescriptionDate(), Field.Store.YES));
+		  System.out.println("adding "+project.getDescriptionDate()+"at index "+project.getIndex());
+		  doc.add(new TextField("description", project.getDescriptionDate(), Field.Store.YES));
 		  doc.add(new StringField("index", Integer.toString(project.getIndex()), Field.Store.YES));
 		  w.addDocument(doc);
 		}
