@@ -1,23 +1,8 @@
 //package ScanToken;
 
-
-
-
-
-
-
-
 /* This class is for the actual events on the orgsync page.  Each event is put into an event object to be manipulated
  * The data in the object is the data scraped from the orgsync web site
  */
-
-
-
-
-
-
-
-
 
 public class EventProject {
 	private String projectName;
@@ -29,7 +14,9 @@ public class EventProject {
 	private String agencyLink;
 	private String descriptionDate;
 	private String distance;
+	private String description;
 	private int index;
+	private long dist;
 
 	public int getIndex() {
 		return index;
@@ -44,7 +31,7 @@ public class EventProject {
  */
 	public EventProject(String projectName, String date, String slot,
 			String link, String agency, String agencyLink,
-			String descriptionDate, String distance) {
+			String descriptionDate, String distance, String description) {
 		this.projectName = projectName;
 		this.date = date;
 		this.slot = slot;
@@ -52,19 +39,37 @@ public class EventProject {
 		this.agency = agency;
 		this.agencyLink = agencyLink;
 		this.descriptionDate = descriptionDate;
-		this.distance= distance;
-		this.slotsize=Integer.parseInt(slot);// creates an actual int from the string of the slotsize that was passed to the constructor
+		this.distance= distance;// really address.
+		this.description= description;
+		dist=calculateDistance();
 		
+		
+		if (this.slot.equals("Unlimited")){slotsize=99;
+		
+		} else{
+				
+		this.slotsize=Integer.parseInt(slot);// creates an actual int from the string of the slotsize that was passed to the constructor
+		}
+	}
+	public String getAddress(){
+		return distance;
+	}
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public int getSlotsize() {
 		return slotsize;
 	}
 
-	public void calculateDistance() {
+	public long calculateDistance() {
 		
 		//TODO:  Needs everything. 
-
+return 0;
 	}
 
 	public String getProjectName() {
@@ -123,16 +128,14 @@ public class EventProject {
 		this.descriptionDate = descriptionDate;
 	}
 
-	public String getDistance() {
-		return distance;
+	public long getDistance() {
+		return dist;
 	}
 
 	public void setDistance(String distance) {
 		this.distance = distance;
 	}
-public String toString(){
-	return projectName;
-}
+
 
 
 }

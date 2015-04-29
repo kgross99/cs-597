@@ -18,7 +18,7 @@ public class Scantoken {
 	private static String myToken="::";
 	private static String newLine="\n";
 	private static boolean debug=true;
-	private static int range=8; 
+	private static int range=9; 
 	
 	
 	public static Vector<EventProject> getValueToken (File file){
@@ -92,7 +92,7 @@ public class Scantoken {
 				System.out.println("Value "+ j +valueToke[j]);
 			}
 			
-			EventList.add(new EventProject(valueToke[0],valueToke[1],valueToke[2],valueToke[3],valueToke[4],valueToke[5],valueToke[6],valueToke[7]));
+			EventList.add(new EventProject(valueToke[0],valueToke[1],valueToke[2],valueToke[3],valueToke[4],valueToke[5],valueToke[6],valueToke[7],valueToke[8]));
 		}
 		
         return EventList;

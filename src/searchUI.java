@@ -32,7 +32,7 @@ public class searchUI {
 	//private Text link;
 	private Text agency;
 	//private Text agencyLink;
-	private Text descriptDate;
+	private Text description;
 	private Text location;
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 	private Table table;
@@ -72,7 +72,7 @@ public class searchUI {
 	 */
 	protected void createContents() {
 		shlSeachInformation = new Shell();
-		shlSeachInformation.setSize(531, 579);
+		shlSeachInformation.setSize(1024, 600);
 		shlSeachInformation.setText("Seach Information");
 		shlSeachInformation.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
@@ -108,28 +108,28 @@ public class searchUI {
 		Label lblAgency = new Label(composite_1, SWT.NONE);
 		lblAgency.setTouchEnabled(true);
 		lblAgency.setText("Agency");
-		lblAgency.setBounds(69, 141, 114, 26);
+		lblAgency.setBounds(69, 121, 114, 26);
 		
 		agency = new Text(composite_1, SWT.BORDER);
-		agency.setBounds(189, 138, 200, 26);
+		agency.setBounds(189, 108, 200, 26);
 		
 		
 		
 		Label lblDescriptionDate = new Label(composite_1, SWT.NONE);
 		lblDescriptionDate.setTouchEnabled(true);
-		lblDescriptionDate.setText("Description Date");
-		lblDescriptionDate.setBounds(69, 205, 114, 26);
+		lblDescriptionDate.setText("Search Items");
+		lblDescriptionDate.setBounds(69, 145, 114, 26);
 		
-		descriptDate = new Text(composite_1, SWT.BORDER);
-		descriptDate.setBounds(189, 202, 200, 26);
+		description = new Text(composite_1, SWT.BORDER);
+		description.setBounds(189, 142, 200, 26);
 		
 		Label lblLocation = new Label(composite_1, SWT.NONE);
 		lblLocation.setTouchEnabled(true);
 		lblLocation.setText("Location");
-		lblLocation.setBounds(69, 237, 114, 26);
+		lblLocation.setBounds(69, 177, 114, 26);
 		
 		location = new Text(composite_1, SWT.BORDER);
-		location.setBounds(189, 234, 200, 26);
+		location.setBounds(189, 174, 200, 26);
 		
 		Button btnNewButton = new Button(composite_1, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
@@ -137,12 +137,12 @@ public class searchUI {
 				
 				table = formToolkit.createTable(composite_1, SWT.NONE);
 				table.setToolTipText("");
-				table.setBounds(10, 345, 495, 167);
+				table.setBounds(10, 245, 980,300);
 				formToolkit.paintBordersFor(table);
 				table.setHeaderVisible(true);
 				table.setLinesVisible(true);
-				 String[] titles = { "Projectname", "Date", "Slot", "Agency" ,"Description date",
-						 "Distance"};
+				 String[] titles = { "Projectname","URL", "Date", "Slot", "Agency" ,
+						 "Address"};
 					    for (int i = 0; i < titles.length; i++) {
 					    	TableColumn column = new TableColumn(table, SWT.NONE);
 						      column.setText(titles[i]);
@@ -169,7 +169,7 @@ public class searchUI {
 							query[1]=date.getText();
 							query[2]=slot.getText();
 							query[3]=agency.getText();
-							query[4]=descriptDate.getText();
+							query[4]=description.getText();
 							query[5]=location.getText();
 							
 							try {
@@ -181,25 +181,23 @@ public class searchUI {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-							
-							if (results.size()>1){
 						 for (int i=0;i<results.size();i++){
 							 outputTable.add(results.get(i));
 							 
 						 }
-		}
 						System.out.println("Output"+outputTable.size());
 					    for (int j = 0; j < outputTable.size(); j++) {
 					      TableItem item = new TableItem(table, SWT.NONE);
 					      EventProject outputEvent=(EventProject) outputTable.get(j);
 					      item.setText(0, outputEvent.getProjectName());
-					      item.setText(1, outputEvent.getDate());
-					      item.setText(2, outputEvent.getSlot());
+					      item.setText(2, outputEvent.getDate());
+					      item.setText(3, outputEvent.getSlot());
 					     
 					      item.setText(4, outputEvent.getAgency());
+					      item.setText(1,outputEvent.getLink());
 					     
-					      item.setText(6, outputEvent.getDescriptionDate());
-					      item.setText(6, outputEvent.getDistance());
+					
+					      item.setText(4, outputEvent.getAddress());
 					    }
 					    for (int i = 0; i < titles.length; i++) {
 						      table.getColumn(i).pack();
@@ -208,7 +206,7 @@ public class searchUI {
 		});
 		btnNewButton.setSelection(true);
 		btnNewButton.setTouchEnabled(true);
-		btnNewButton.setBounds(189, 285, 143, 40);
+		btnNewButton.setBounds(189, 205, 143, 40);
 		btnNewButton.setText("Search button");
 	}
 }
