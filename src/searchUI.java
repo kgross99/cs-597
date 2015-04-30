@@ -81,13 +81,14 @@ public class searchUI {
 		
 		final Composite composite_1 = new Composite(composite, SWT.NONE);
 		
-		Label lblNewLabel = new Label(composite_1, SWT.NONE);
+		/*Label lblNewLabel = new Label(composite_1, SWT.NONE);
 		lblNewLabel.setBounds(69, 10, 114, 26);
 		lblNewLabel.setText("Project Name");
 		
 		projectName = new Text(composite_1, SWT.BORDER);
 		projectName.setBounds(189, 7, 200, 26);
-		
+		*/
+		/*
 		Label lblDate = new Label(composite_1, SWT.NONE);
 		lblDate.setTouchEnabled(true);
 		lblDate.setText("Date");
@@ -95,16 +96,16 @@ public class searchUI {
 		
 		date = new Text(composite_1, SWT.BORDER);
 		date.setBounds(189, 42, 200, 26);
-		
+		*/
 		Label lblSlot = new Label(composite_1, SWT.NONE);
 		lblSlot.setTouchEnabled(true);
-		lblSlot.setText("Slot");
-		lblSlot.setBounds(69, 77, 114, 26);
+		lblSlot.setText("Minimum number of Openings");
+		lblSlot.setBounds(69, 10, 220, 26);
 		
 		slot = new Text(composite_1, SWT.BORDER);
-		slot.setBounds(189, 74, 200, 26);
+		slot.setBounds(290, 7, 100, 26);
 		
-		
+		/*
 		Label lblAgency = new Label(composite_1, SWT.NONE);
 		lblAgency.setTouchEnabled(true);
 		lblAgency.setText("Agency");
@@ -112,24 +113,24 @@ public class searchUI {
 		
 		agency = new Text(composite_1, SWT.BORDER);
 		agency.setBounds(189, 108, 200, 26);
-		
+		*/
 		
 		
 		Label lblDescriptionDate = new Label(composite_1, SWT.NONE);
 		lblDescriptionDate.setTouchEnabled(true);
 		lblDescriptionDate.setText("Search Items");
-		lblDescriptionDate.setBounds(69, 145, 114, 26);
+		lblDescriptionDate.setBounds(69, 42, 114, 26);
 		
 		description = new Text(composite_1, SWT.BORDER);
-		description.setBounds(189, 142, 200, 26);
+		description.setBounds(189, 42, 400, 26);
 		
 		Label lblLocation = new Label(composite_1, SWT.NONE);
 		lblLocation.setTouchEnabled(true);
-		lblLocation.setText("Location");
-		lblLocation.setBounds(69, 177, 114, 26);
+		lblLocation.setText("Max Distance in Miles");
+		lblLocation.setBounds(69, 72, 165, 26);
 		
 		location = new Text(composite_1, SWT.BORDER);
-		location.setBounds(189, 174, 200, 26);
+		location.setBounds(230, 78, 250, 26);
 		
 		Button btnNewButton = new Button(composite_1, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
@@ -137,7 +138,7 @@ public class searchUI {
 				
 				table = formToolkit.createTable(composite_1, SWT.NONE);
 				table.setToolTipText("");
-				table.setBounds(10, 245, 980,300);
+				table.setBounds(10, 155, 980,300);
 				formToolkit.paintBordersFor(table);
 				table.setHeaderVisible(true);
 				table.setLinesVisible(true);
@@ -147,8 +148,14 @@ public class searchUI {
 					    	TableColumn column = new TableColumn(table, SWT.NONE);
 						      column.setText(titles[i]);
 					    }
-					    File file = new File("c:/Test.xlsx");
-						Vector<EventProject> EventList=Scantoken.getValueToken(file);
+					    File file = new File("c:/org_projects_test.csv");
+						Vector<EventProject> EventList= new Vector<EventProject>();
+						try {
+							EventList = Scantoken.getValueToken(file);
+						} catch (IOException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 						int count = 0;
 						System.out.println("Size is"+EventList.size());
 						Vector outputTable = new Vector();
@@ -165,10 +172,10 @@ public class searchUI {
 							}
 					    	
 					    	String[] query=new String[6];
-							query[0]=projectName.getText();
-							query[1]=date.getText();
+							query[0]="";
+							query[1]="";
 							query[2]=slot.getText();
-							query[3]=agency.getText();
+							query[3]="";
 							query[4]=description.getText();
 							query[5]=location.getText();
 							
@@ -189,12 +196,13 @@ public class searchUI {
 					    for (int j = 0; j < outputTable.size(); j++) {
 					      TableItem item = new TableItem(table, SWT.NONE);
 					      EventProject outputEvent=(EventProject) outputTable.get(j);
-					      item.setText(0, outputEvent.getProjectName());
+					      //item.setText(0, outputEvent.getDiststring());
+					      item.setText(0,outputEvent.getProjectName());
 					      item.setText(2, outputEvent.getDate());
 					      item.setText(3, outputEvent.getSlot());
 					     
 					      item.setText(4, outputEvent.getAgency());
-					      item.setText(1,outputEvent.getLink());
+					      item.setText(1, outputEvent.getLink());
 					     
 					
 					      item.setText(4, outputEvent.getAddress());
@@ -206,7 +214,7 @@ public class searchUI {
 		});
 		btnNewButton.setSelection(true);
 		btnNewButton.setTouchEnabled(true);
-		btnNewButton.setBounds(189, 205, 143, 40);
-		btnNewButton.setText("Search button");
+		btnNewButton.setBounds(189, 109, 300, 40);
+		btnNewButton.setText("Search for items or list all open projects");
 	}
 }

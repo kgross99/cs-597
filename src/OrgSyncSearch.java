@@ -1,4 +1,9 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -34,6 +39,7 @@ public class OrgSyncSearch {
 	private TopScoreDocCollector collector;
 	private int DocId;
 	private Document tempDoc;
+	private long distCheck;
 
 	public OrgSyncSearch(ArrayList<EventProject> eventList) throws IOException {
 		tempList=new ArrayList<EventProject>();
@@ -46,6 +52,7 @@ public class OrgSyncSearch {
 	//	this.eventList = eventList;
 		
 		System.out.println("processing list");
+		System.out.println("number of events in list "+eventList.size());
 		
 		for (int i = 0; i < eventList.size(); i++) {
 			System.out.println("processing event "+eventList.get(i));
@@ -54,17 +61,34 @@ public class OrgSyncSearch {
 				tempList.add(eventList.get(i));
 			
 				
-				addDoc(w, tempList.get(i));
+				addDoc(w, eventList.get(i));
 			}
 		}
 		w.close();
 	}
 
 	ArrayList<EventProject> search(String[] fields) throws ParseException,
-			IOException {
-	
+	IOException {
+		if (fields[5]!=""){
 
-		if (fields[0] == "") { // checks for project name
+			try{
+				distCheck=Long.parseLong(fields[5]);
+
+
+			} catch (NumberFormatException e){
+				distCheck=0;
+			}
+			for (int i=0;i<tempList.size();i++){
+				if (tempList.get(i).getDist()<=distCheck){
+					validList.add(tempList.get(i));
+				}
+
+
+			}
+			tempList=validList;
+		}
+
+			if (fields[0] == "") { // checks for project name
 			validList=tempList;
 		}else{
 			for (int i = 0; i < tempList.size(); i++) {
@@ -127,6 +151,7 @@ public class OrgSyncSearch {
 			}
 
 		}
+	
 
 		return validList;
 	}
@@ -141,5 +166,39 @@ public class OrgSyncSearch {
 		  
 		  doc.add(new StringField("index", Integer.toString(project.getIndex()), Field.Store.YES));
 		  index.addDocument(doc);
+
+	}
+	
+	private String CalculateDistance() {
+		
+		String Adress2="1910 University Dr, Boise, ID 83725";
+		String Adress1="here";
+		try {
+
+			URL url = new URL(
+					"https://maps.googleapis.com/maps/api/distancematrix/json?origins="
+							+ URLEncoder.encode(Adress2, "UTF-8") + "|"
+							+ URLEncoder.encode(Adress1, "UTF-8")
+							+ "&destinations="
+							+ URLEncoder.encode(Adress1, "UTF-8") + "|"
+							+ URLEncoder.encode(Adress2, "UTF-8")
+							+ "&units=imperial");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			String line, outputString = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					conn.getInputStream()));
+			while ((line = reader.readLine()) != null) {
+				outputString += line;
+			}
+			return outputString;
+		} catch (Exception ex) {
+			return "error";
 		}
+
+	}
+	
+	
+	
+	
 }

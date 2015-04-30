@@ -1,3 +1,11 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import com.ibm.icu.util.StringTokenizer;
+
 //package ScanToken;
 
 /* This class is for the actual events on the orgsync page.  Each event is put into an event object to be manipulated
@@ -17,6 +25,7 @@ public class EventProject {
 	private String description;
 	private int index;
 	private long dist;
+	private String diststring;
 
 	public int getIndex() {
 		return index;
@@ -41,16 +50,39 @@ public class EventProject {
 		this.descriptionDate = descriptionDate;
 		this.distance= distance;// really address.
 		this.description= description;
-		dist=calculateDistance();
+		System.out.println("calculating distance");
+		diststring=ParseDistance(calculateDistance());
+		StringTokenizer st = new StringTokenizer(diststring);
+		diststring=st.nextToken();
+		
+		try{
+		
+		dist=Integer.parseInt(diststring);
+		} catch (NumberFormatException e){
+			dist=0;
+		}
 		
 		
 		if (this.slot.equals("Unlimited")){slotsize=99;
 		
 		} else{
-				
+			try{	
 		this.slotsize=Integer.parseInt(slot);// creates an actual int from the string of the slotsize that was passed to the constructor
+			} catch (NumberFormatException e){
+				slotsize=1;
+			}
+			
 		}
+		
 	}
+	public long getDist() {
+		return dist;
+	}
+
+	public String getDiststring() {
+		return diststring;
+	}
+
 	public String getAddress(){
 		return distance;
 	}
@@ -66,10 +98,61 @@ public class EventProject {
 		return slotsize;
 	}
 
-	public long calculateDistance() {
+	public String calculateDistance() {
+		String Adress2="1910 University Dr, Boise, ID 8372";
+				String Adress1=distance;
+				String line, outputString = "";
+	
+		try {
+
+			URL url = new URL(
+					"https://maps.googleapis.com/maps/api/distancematrix/json?origins="
+							+ URLEncoder.encode(Adress2, "UTF-8") + "|"
+							+ URLEncoder.encode(Adress1, "UTF-8")
+							+ "&destinations="
+							+ URLEncoder.encode(Adress1, "UTF-8") + "|"
+							+ URLEncoder.encode(Adress2, "UTF-8")
+							+ "&units=imperial");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					conn.getInputStream()));
+			while ((line = reader.readLine()) != null) {
+				outputString += line;
+			}
+		} catch (Exception ex) {
+			return "error";
+		}
+			
+			System.out.println("outputString "+outputString);
+			return outputString;
 		
-		//TODO:  Needs everything. 
-return 0;
+		
+	}
+	
+	private String ParseDistance(String output){
+		
+		try {
+
+			String Index = output
+					.substring(
+							output.indexOf("\"distance\" : {                  \"text\"") + 42,
+							output.indexOf("\",                  \"value\""));
+
+			// System.out.println(Index);
+			if (Index.equalsIgnoreCase("1 ft")) {
+				return "0";
+			} else
+				return Index;
+
+		} catch (Exception ex) {
+			return "error";
+		}
+		
+		
+		
+		
 	}
 
 	public String getProjectName() {
